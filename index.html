@@ -212,7 +212,7 @@ body{background:var(--bg);color:var(--text);font-family:'Noto Sans TC',sans-seri
           <input type="checkbox" id="chk-full" onchange="onPaymentChange('full')"/>
           <div>
             <div class="payment-option-label">支付全款</div>
-            <div class="payment-option-sub">一次結清，贈送三個月使用費</div>
+            <div class="payment-option-sub">一次結清，贈送貳個月使用費</div>
           </div>
         </label>
       </div>
@@ -391,7 +391,7 @@ function updateRemarks(){
     rdEl.innerHTML =
       `<div class="remark-row">１｜訂金：<strong>NTD$${fmt(deposit)}</strong>（含稅）建置費 30%，啟動前支付。</div>` +
       `<div class="remark-row">２｜尾款：<strong>NTD$${fmt(balance)}</strong>（含稅）正式上線後一個月內結清。</div>` +
-      `<div class="remark-row">３｜首年全額支付，贈送三個月使用費。</div>` +
+      `<div class="remark-row">３｜首年全額支付，贈送貳個月使用費。</div>` +
       `<div class="remark-row">４｜成功引薦用戶使用平台，折扣 NTD$2,000／合約。</div>`;
     rdEl.className = 'payment-remark visible';
   } else {
@@ -400,7 +400,7 @@ function updateRemarks(){
 
   if(chkF.checked && _lastGrand > 0){
     rfEl.innerHTML =
-      `<div class="remark-row">１｜全額支付：<strong>NTD$${fmt(_lastGrand)}</strong>（含稅），首年全額支付，贈送三個月使用費。</div>` +
+      `<div class="remark-row">１｜全額支付：<strong>NTD$${fmt(_lastGrand)}</strong>（含稅），首年全額支付，贈送貳個月使用費。</div>` +
       `<div class="remark-row">２｜成功引薦用戶使用平台，折扣 NTD$2,000／合約。</div>`;
     rfEl.className = 'payment-remark full-type visible';
   } else {
