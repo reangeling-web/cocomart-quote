@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>可可食集 CocoMart — 方案報價試算</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;600&family=Noto+Sans+TC:wght@300;400;500&display=swap" rel="stylesheet"/>
+<style>
+:root{
+  --bg:#faf9f7;
+  --card:#ffffff;
+  --border:#e8e4dd;
+  --text:#1a1612;
+  --muted:#7a7068;
+  --accent:#2d5a27;
+  --accent-light:#e8f0e6;
+  --accent2:#8b4513;
+  --price:#1a3d17;
+  --tag-a:#e8f0e6;
+  --tag-b:#e8eef5;
+  --tag-c:#f5ede8;
+  --radius:14px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--text);font-family:'Noto Sans TC',sans-serif;font-weight:400;min-height:100vh;padding:0 0 60px}
+
+/* HERO */
+.hero{background:var(--accent);color:#fff;padding:36px 24px 32px;text-align:center;position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;inset:0;background:url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.04'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");pointer-events:none}
+.hero-logo{font-family:'Noto Serif TC',serif;font-size:13px;font-weight:400;letter-spacing:0.15em;opacity:0.75;margin-bottom:10px;text-transform:uppercase}
+.hero-title{font-family:'Noto Serif TC',serif;font-size:28px;font-weight:600;line-height:1.3;margin-bottom:6px}
+.hero-sub{font-size:13px;opacity:0.7;font-weight:300;letter-spacing:0.05em}
+
+/* MAIN LAYOUT */
+.wrap{max-width:700px;margin:0 auto;padding:0 16px}
+
+/* PLAN SELECTOR */
+.plan-section{margin-top:-1px;padding:28px 0 0}
+.section-label{font-size:11px;letter-spacing:0.12em;text-transform:uppercase;color:var(--muted);font-weight:500;margin-bottom:14px}
+.plan-tabs{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:0}
+.plan-tab{border:1.5px solid var(--border);border-radius:var(--radius);padding:16px 12px;cursor:pointer;transition:all 0.18s;background:var(--card);text-align:center;position:relative}
+.plan-tab:hover{border-color:#aaa}
+.plan-tab.active-A{border-color:var(--accent);background:var(--tag-a)}
+.plan-tab.active-B{border-color:#3a6fa8;background:var(--tag-b)}
+.plan-tab.active-C{border-color:var(--accent2);background:var(--tag-c)}
+.plan-tab .plan-badge{font-size:18px;font-weight:700;font-family:'Noto Serif TC',serif;margin-bottom:4px;line-height:1}
+.plan-tab .plan-name{font-size:11px;color:var(--muted);line-height:1.4}
+.plan-tab .plan-price-hint{font-size:11px;margin-top:6px;font-weight:500;color:var(--muted)}
+.plan-tab.active-A .plan-badge{color:var(--accent)}
+.plan-tab.active-B .plan-badge{color:#3a6fa8}
+.plan-tab.active-C .plan-badge{color:var(--accent2)}
+.plan-tab.active-A .plan-name,.plan-tab.active-A .plan-price-hint{color:var(--accent)}
+.plan-tab.active-B .plan-name,.plan-tab.active-B .plan-price-hint{color:#3a6fa8}
+.plan-tab.active-C .plan-name,.plan-tab.active-C .plan-price-hint{color:var(--accent2)}
+
+/* CARDS */
+.card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:22px 20px;margin-top:16px}
+.card-title{font-family:'Noto Serif TC',serif;font-size:15px;font-weight:600;margin-bottom:16px;color:var(--text)}
+
+/* INPUTS */
+.input-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px}
+.input-row.single{grid-template-columns:1fr}
+.field{display:flex;flex-direction:column;gap:6px}
+.field label{font-size:12px;color:var(--muted);font-weight:500}
+.field input,.field select{width:100%;border:1px solid var(--border);border-radius:9px;padding:10px 12px;font-size:14px;font-family:'Noto Sans TC',sans-serif;background:#fff;color:var(--text);outline:none;transition:border-color 0.15s}
+.field input:focus,.field select:focus{border-color:var(--accent)}
+
+/* BRAND ROWS */
+.brand-rows{display:flex;flex-direction:column;gap:8px}
+.brand-row{display:grid;grid-template-columns:1fr 90px;gap:8px;align-items:center}
+.brand-row .brand-num{font-size:11px;color:var(--muted);font-weight:500;min-width:14px;text-align:right}
+.brand-row-wrap{display:grid;grid-template-columns:14px 1fr;gap:6px;align-items:center}
+.add-brand-btn,.remove-brand-btn{border:none;background:none;cursor:pointer;font-size:11px;color:var(--muted);padding:0;text-decoration:underline}
+.add-brand-btn:hover{color:var(--accent)}
+.remove-brand-btn:hover{color:#c0392b}
+.brand-row-ctrl{display:flex;gap:10px;margin-top:8px}
+
+/* QUOTE RESULT */
+.quote-card{background:var(--accent);color:#fff;border-radius:var(--radius);padding:22px 20px;margin-top:16px;position:relative;overflow:hidden}
+.quote-card::after{content:'';position:absolute;right:-20px;top:-20px;width:140px;height:140px;border-radius:50%;background:rgba(255,255,255,0.05)}
+.quote-label{font-size:11px;letter-spacing:0.1em;text-transform:uppercase;opacity:0.7;margin-bottom:4px}
+.quote-total{font-family:'Noto Serif TC',serif;font-size:40px;font-weight:600;line-height:1.1;margin-bottom:2px}
+.quote-unit{font-size:13px;opacity:0.7;font-weight:300;margin-bottom:18px}
+.quote-breakdown{border-top:1px solid rgba(255,255,255,0.2);padding-top:14px;display:flex;flex-direction:column;gap:7px}
+.qrow{display:flex;justify-content:space-between;font-size:13px}
+.qrow .ql{opacity:0.8}
+.qrow .qv{font-weight:500;font-family:'Noto Sans TC',sans-serif}
+.qrow.grand{border-top:1px solid rgba(255,255,255,0.2);padding-top:10px;margin-top:3px;font-size:15px}
+.qrow.grand .ql{opacity:1;font-weight:600}
+.qrow.grand .qv{font-size:18px;font-family:'Noto Serif TC',serif;font-weight:600}
+
+/* B/C FIXED INFO */
+.fixed-info{background:var(--tag-b);border:1px solid #c5d8ed;border-radius:var(--radius);padding:16px 18px;margin-top:0}
+.fixed-info.c-type{background:var(--tag-c);border-color:#d9bfae}
+.fi-title{font-size:13px;font-weight:500;margin-bottom:10px;color:var(--text)}
+.fi-row{display:flex;justify-content:space-between;font-size:13px;padding:5px 0;border-bottom:1px solid rgba(0,0,0,0.06)}
+.fi-row:last-child{border-bottom:none}
+.fi-row .fi-l{color:var(--muted)}
+.fi-row .fi-v{font-weight:500}
+
+/* NOTICE */
+.notice{font-size:11.5px;color:var(--muted);line-height:1.7;margin-top:14px;padding:12px 14px;background:#f5f3ef;border-radius:9px;border-left:3px solid var(--border)}
+
+/* ANIMATE */
+@keyframes fadeUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+.animate{animation:fadeUp 0.25s ease both}
+
+/* PAYMENT OPTIONS */
+.payment-section{margin-top:14px}
+.payment-title{font-size:11px;letter-spacing:0.12em;text-transform:uppercase;color:var(--muted);font-weight:500;margin-bottom:10px}
+.payment-options{display:flex;flex-direction:column;gap:8px}
+.payment-option{display:flex;align-items:flex-start;gap:10px;padding:12px 14px;border:1.5px solid var(--border);border-radius:10px;cursor:pointer;transition:all 0.15s;background:#fff}
+.payment-option:hover{border-color:#aaa}
+.payment-option.selected-deposit{border-color:var(--accent);background:var(--accent-light)}
+.payment-option.selected-full{border-color:#8b4513;background:#fdf4ee}
+.payment-option input[type=checkbox]{width:16px;height:16px;accent-color:var(--accent);flex-shrink:0;margin-top:2px;cursor:pointer}
+.payment-option-label{font-size:13px;font-weight:500;color:var(--text);line-height:1.3}
+.payment-option-sub{font-size:11px;color:var(--muted);margin-top:2px}
+.payment-remark{margin-top:10px;padding:12px 14px;background:#f5f3ef;border-radius:9px;border-left:3px solid var(--accent);font-size:11.5px;color:var(--text);line-height:1.8;display:none}
+.payment-remark.visible{display:block}
+.payment-remark .remark-row{margin-bottom:2px}
+.payment-remark .remark-row strong{color:var(--accent)}
+.payment-remark.full-type{border-left-color:#8b4513}
+.payment-remark.full-type .remark-row strong{color:#8b4513}
+
+/* FOOTER */
+.footer{text-align:center;font-size:11px;color:#bbb;margin-top:40px;letter-spacing:0.08em}
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="hero-logo">可可食集 CocoMart</div>
+  <div class="hero-title">方案報價試算</div>
+  <div class="hero-sub">選擇方案 · 輸入規模 · 即時報價</div>
+</div>
+
+<div class="wrap">
+
+  <!-- PLAN SELECT -->
+  <div class="plan-section">
+    <div class="section-label">選擇申請方案</div>
+    <div class="plan-tabs">
+      <div class="plan-tab active-A" id="tab-A" onclick="selectPlan('A')">
+        <div class="plan-badge">A</div>
+        <div class="plan-name">餐廳採購方案</div>
+        <div class="plan-price-hint">依總部 × 門市計算</div>
+      </div>
+      <div class="plan-tab" id="tab-B" onclick="selectPlan('B')">
+        <div class="plan-badge">B</div>
+        <div class="plan-name">供應商方案</div>
+        <div class="plan-price-hint">固定報價</div>
+      </div>
+      <div class="plan-tab" id="tab-C" onclick="selectPlan('C')">
+        <div class="plan-badge">C</div>
+        <div class="plan-name">商城賣場方案</div>
+        <div class="plan-price-hint">固定報價 · 早鳥</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- A PLAN INPUTS -->
+  <div id="section-A" class="animate">
+    <div class="card">
+      <div class="card-title">總部與品牌設定</div>
+      <div class="input-row">
+        <div class="field">
+          <label>總部數量（決定總部費率）</label>
+          <input type="number" id="hqCount" min="1" max="99" value="1" oninput="calcA()"/>
+        </div>
+      </div>
+      <div class="section-label" style="margin-top:4px;margin-bottom:10px">各品牌門市數（可跨總部，自由新增）</div>
+      <div class="brand-rows" id="brandRows"></div>
+      <div class="brand-row-ctrl">
+        <button class="add-brand-btn" onclick="addBrand()">＋ 新增品牌列</button>
+      </div>
+    </div>
+
+    <!-- QUOTE -->
+    <div class="quote-card" id="quoteA">
+      <div class="quote-label">預估含稅總金額</div>
+      <div class="quote-total" id="qA-grand">—</div>
+      <div class="quote-unit">元（含 5% 營業稅）</div>
+      <div class="quote-breakdown">
+        <div class="qrow"><span class="ql">總部導入費（一次性）</span><span class="qv" id="qA-hqSetup">—</span></div>
+        <div class="qrow"><span class="ql">門市導入費（一次性）</span><span class="qv" id="qA-storeSetup">—</span></div>
+        <div class="qrow"><span class="ql">總部年費</span><span class="qv" id="qA-hqAnnual">—</span></div>
+        <div class="qrow"><span class="ql">門市年費</span><span class="qv" id="qA-storeAnnual">—</span></div>
+        <div class="qrow"><span class="ql">稅前合計</span><span class="qv" id="qA-sub">—</span></div>
+        <div class="qrow"><span class="ql">營業稅（5%）</span><span class="qv" id="qA-tax">—</span></div>
+        <div class="qrow grand"><span class="ql">含稅總計</span><span class="qv" id="qA-total">—</span></div>
+      </div>
+    </div>
+    <div class="notice">
+      ・導入費為一次性費用，於支付後開始導入。<br>
+      ・年費方案：總部 18,000 元／年；各門市 1,800 元／年。<br>
+      ・本試算為參考報價，正式金額以申請書簽署為準。
+    </div>
+
+    <!-- PAYMENT OPTIONS -->
+    <div class="payment-section">
+      <div class="payment-title">付款方式選擇</div>
+      <div class="payment-options">
+        <label class="payment-option" id="opt-deposit">
+          <input type="checkbox" id="chk-deposit" onchange="onPaymentChange('deposit')"/>
+          <div>
+            <div class="payment-option-label">訂金啟動</div>
+            <div class="payment-option-sub">建置費含稅 30% 先付，其餘上線後結清</div>
+          </div>
+        </label>
+        <label class="payment-option" id="opt-full">
+          <input type="checkbox" id="chk-full" onchange="onPaymentChange('full')"/>
+          <div>
+            <div class="payment-option-label">支付全款</div>
+            <div class="payment-option-sub">一次結清，贈送三個月使用費</div>
+          </div>
+        </label>
+      </div>
+      <div class="payment-remark" id="remark-deposit"></div>
+      <div class="payment-remark full-type" id="remark-full"></div>
+    </div>
+  </div>
+
+  <!-- B PLAN -->
+  <div id="section-B" style="display:none">
+    <div class="card">
+      <div class="card-title">供應商方案 — 費用說明</div>
+      <div class="fixed-info">
+        <div class="fi-title">訂供貨平台・供應商方案</div>
+        <div class="fi-row"><span class="fi-l">導入費（一次性）</span><span class="fi-v">10,000 元</span></div>
+        <div class="fi-row"><span class="fi-l">系統年費</span><span class="fi-v">36,000 元</span></div>
+        <div class="fi-row"><span class="fi-l">（月費換算）</span><span class="fi-v">3,000 元／月</span></div>
+      </div>
+    </div>
+    <div class="quote-card" style="background:#2c4a6e">
+      <div class="quote-label">預估含稅總金額</div>
+      <div class="quote-total">48,300</div>
+      <div class="quote-unit">元（含 5% 營業稅）</div>
+      <div class="quote-breakdown">
+        <div class="qrow"><span class="ql">導入費</span><span class="qv">10,000</span></div>
+        <div class="qrow"><span class="ql">年費</span><span class="qv">36,000</span></div>
+        <div class="qrow"><span class="ql">稅前合計</span><span class="qv">46,000</span></div>
+        <div class="qrow"><span class="ql">營業稅（5%）</span><span class="qv">2,300</span></div>
+        <div class="qrow grand"><span class="ql">含稅總計</span><span class="qv">48,300</span></div>
+      </div>
+    </div>
+    <div class="notice">
+      ・本方案為固定費率，不依門市數計費。<br>
+      ・本試算為參考報價，正式金額以申請書簽署為準。
+    </div>
+  </div>
+
+  <!-- C PLAN -->
+  <div id="section-C" style="display:none">
+    <div class="card">
+      <div class="card-title">商城供應商賣場方案 — 費用說明</div>
+      <div class="fixed-info c-type">
+        <div class="fi-title">可可食集商城・供應商賣場服務標準版（早鳥）</div>
+        <div class="fi-row"><span class="fi-l">早鳥優惠年費</span><span class="fi-v">12,000 元</span></div>
+        <div class="fi-row"><span class="fi-l">（月費換算）</span><span class="fi-v">1,000 元／月</span></div>
+        <div class="fi-row"><span class="fi-l">原價</span><span class="fi-v" style="text-decoration:line-through;color:var(--muted)">72,000 元／年</span></div>
+      </div>
+    </div>
+    <div class="quote-card" style="background:#6b3320">
+      <div class="quote-label">預估含稅總金額</div>
+      <div class="quote-total">12,600</div>
+      <div class="quote-unit">元（含 5% 營業稅）</div>
+      <div class="quote-breakdown">
+        <div class="qrow"><span class="ql">賣場年費（早鳥）</span><span class="qv">12,000</span></div>
+        <div class="qrow"><span class="ql">營業稅（5%）</span><span class="qv">600</span></div>
+        <div class="qrow grand"><span class="ql">含稅總計</span><span class="qv">12,600</span></div>
+      </div>
+    </div>
+    <div class="notice">
+      ・早鳥優惠僅限合約第一年有效，合約期間一年。<br>
+      ・含 100 項商品上架、賣場版面、食材詢價通知等功能。<br>
+      ・本試算為參考報價，正式金額以申請書簽署為準。
+    </div>
+  </div>
+
+  <div class="footer" style="margin-top:32px">可可食集 CocoMart｜食集資訊股份有限公司<br>本頁報價僅供試算參考，實際費用以正式申請書為準</div>
+</div>
+
+<script>
+let plan = 'A';
+let brands = [{name:'',stores:0}];
+
+function selectPlan(p){
+  plan = p;
+  ['A','B','C'].forEach(x=>{
+    const tab = document.getElementById('tab-'+x);
+    tab.className = 'plan-tab';
+    if(x===p) tab.classList.add('active-'+x);
+    document.getElementById('section-'+x).style.display = x===p ? 'block' : 'none';
+  });
+  if(p==='A') calcA();
+}
+
+function addBrand(){
+  brands.push({name:'',stores:0});
+  renderBrands();
+  calcA();
+}
+
+function removeBrand(idx){
+  if(brands.length<=1) return;
+  brands.splice(idx,1);
+  renderBrands();
+  calcA();
+}
+
+function renderBrands(){
+  const container = document.getElementById('brandRows');
+  container.innerHTML = '';
+  brands.forEach((b,i)=>{
+    const row = document.createElement('div');
+    row.className = 'brand-row-wrap';
+    row.innerHTML = `
+      <span style="font-size:11px;color:#aaa;text-align:right">${i+1}.</span>
+      <div class="brand-row">
+        <input type="text" placeholder="品牌或總部名稱（選填）" value="${b.name}"
+          oninput="brands[${i}].name=this.value" style="border:1px solid #e8e4dd;border-radius:9px;padding:9px 12px;font-size:13px;font-family:'Noto Sans TC',sans-serif;width:100%;outline:none"/>
+        <div style="display:flex;align-items:center;gap:6px">
+          <input type="number" placeholder="門市數" min="0" value="${b.stores||''}"
+            oninput="brands[${i}].stores=Number(this.value)||0;calcA()"
+            style="border:1px solid #e8e4dd;border-radius:9px;padding:9px 8px;font-size:13px;font-family:'Noto Sans TC',sans-serif;width:62px;text-align:center;outline:none"/>
+          ${brands.length>1?`<button class="remove-brand-btn" onclick="removeBrand(${i})">✕</button>`:''}
+        </div>
+      </div>`;
+    container.appendChild(row);
+  });
+}
+
+function fmt(n){ return new Intl.NumberFormat('zh-TW').format(n); }
+
+let _lastGrand = 0;
+let _lastSetupTaxed = 0;
+
+function calcA(){
+  const hq = Math.max(0, Number(document.getElementById('hqCount').value)||0);
+  const stores = brands.reduce((s,b)=>s+(Number(b.stores)||0),0);
+  const hqSetup   = hq * 10000;
+  const storeSetup = stores * 1000;
+  const hqAnnual  = hq * 18000;
+  const storeAnnual = stores * 1800;
+  const sub = hqSetup + storeSetup + hqAnnual + storeAnnual;
+  const tax = Math.round(sub * 0.05);
+  const grand = sub + tax;
+
+  // 建置費含稅
+  const setupPre = hqSetup + storeSetup;
+  const setupTaxed = Math.round(setupPre * 1.05);
+
+  _lastGrand = grand;
+  _lastSetupTaxed = setupTaxed;
+
+  document.getElementById('qA-hqSetup').textContent    = hq    ? fmt(hqSetup)    + ' 元' : '—';
+  document.getElementById('qA-storeSetup').textContent = stores ? fmt(storeSetup) + ' 元' : '—';
+  document.getElementById('qA-hqAnnual').textContent   = hq    ? fmt(hqAnnual)   + ' 元' : '—';
+  document.getElementById('qA-storeAnnual').textContent= stores ? fmt(storeAnnual)+ ' 元' : '—';
+  document.getElementById('qA-sub').textContent  = sub   ? fmt(sub)   + ' 元' : '—';
+  document.getElementById('qA-tax').textContent  = tax   ? fmt(tax)   + ' 元' : '—';
+  document.getElementById('qA-total').textContent= grand ? fmt(grand) + ' 元' : '—';
+  document.getElementById('qA-grand').textContent= grand ? fmt(grand) : '—';
+
+  // 更新備註金額（如果已勾選）
+  updateRemarks();
+}
+
+function onPaymentChange(type){
+  const chkD = document.getElementById('chk-deposit');
+  const chkF = document.getElementById('chk-full');
+  if(type==='deposit' && chkD.checked) chkF.checked = false;
+  if(type==='full' && chkF.checked) chkD.checked = false;
+
+  document.getElementById('opt-deposit').className = 'payment-option' + (chkD.checked ? ' selected-deposit' : '');
+  document.getElementById('opt-full').className    = 'payment-option' + (chkF.checked ? ' selected-full' : '');
+
+  updateRemarks();
+}
+
+function updateRemarks(){
+  const chkD = document.getElementById('chk-deposit');
+  const chkF = document.getElementById('chk-full');
+  const rdEl  = document.getElementById('remark-deposit');
+  const rfEl  = document.getElementById('remark-full');
+
+  if(chkD.checked && _lastGrand > 0){
+    const deposit  = Math.round(_lastSetupTaxed * 0.3);
+    const balance  = _lastGrand - deposit;
+    rdEl.innerHTML =
+      `<div class="remark-row">１｜訂金：<strong>NTD$${fmt(deposit)}</strong>（含稅）建置費 30%，啟動前支付。</div>` +
+      `<div class="remark-row">２｜尾款：<strong>NTD$${fmt(balance)}</strong>（含稅）正式上線後一個月內結清。</div>` +
+      `<div class="remark-row">３｜首年全額支付，贈送三個月使用費。</div>` +
+      `<div class="remark-row">４｜成功引薦用戶使用平台，折扣 NTD$2,000／合約。</div>`;
+    rdEl.className = 'payment-remark visible';
+  } else {
+    rdEl.className = 'payment-remark';
+  }
+
+  if(chkF.checked && _lastGrand > 0){
+    rfEl.innerHTML =
+      `<div class="remark-row">１｜全額支付：<strong>NTD$${fmt(_lastGrand)}</strong>（含稅），首年全額支付，贈送三個月使用費。</div>` +
+      `<div class="remark-row">２｜成功引薦用戶使用平台，折扣 NTD$2,000／合約。</div>`;
+    rfEl.className = 'payment-remark full-type visible';
+  } else {
+    rfEl.className = 'payment-remark full-type';
+  }
+}
+
+// init
+renderBrands();
+calcA();
+</script>
+</body>
+</html>
