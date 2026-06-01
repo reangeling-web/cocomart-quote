@@ -184,8 +184,8 @@ body{background:var(--bg);color:var(--text);font-family:'Noto Sans TC',sans-seri
       <div class="quote-breakdown">
         <div class="qrow"><span class="ql">總部導入費（一次性）</span><span class="qv" id="qA-hqSetup">—</span></div>
         <div class="qrow"><span class="ql">門市導入費（一次性）</span><span class="qv" id="qA-storeSetup">—</span></div>
-        <div class="qrow"><span class="ql">總部年費</span><span class="qv" id="qA-hqAnnual">—</span></div>
-        <div class="qrow"><span class="ql">門市年費</span><span class="qv" id="qA-storeAnnual">—</span></div>
+        <div class="qrow"><span class="ql" id="qA-hqAnnualLabel">總部年費</span><span class="qv" id="qA-hqAnnual">—</span></div>
+        <div class="qrow"><span class="ql" id="qA-storeAnnualLabel">門市年費</span><span class="qv" id="qA-storeAnnual">—</span></div>
         <div class="qrow"><span class="ql">稅前合計</span><span class="qv" id="qA-sub">—</span></div>
         <div class="qrow"><span class="ql">營業稅（5%）</span><span class="qv" id="qA-tax">—</span></div>
         <div class="qrow grand"><span class="ql">含稅總計</span><span class="qv" id="qA-total">—</span></div>
@@ -205,7 +205,7 @@ body{background:var(--bg);color:var(--text);font-family:'Noto Sans TC',sans-seri
           <input type="checkbox" id="chk-deposit" onchange="onPaymentChange('deposit')"/>
           <div>
             <div class="payment-option-label">訂金啟動</div>
-            <div class="payment-option-sub">建置費含稅 30% 先付，其餘上線後結清</div>
+            <div class="payment-option-sub">建置費（含稅）全額先付，其餘上線後結清</div>
           </div>
         </label>
         <label class="payment-option" id="opt-full">
@@ -354,6 +354,8 @@ function calcA(){
   _lastGrand = grand;
   _lastSetupTaxed = setupTaxed;
 
+  document.getElementById('qA-hqAnnualLabel').textContent   = `總部年費（${hq}個 × $1,500 × 12個月）`;
+  document.getElementById('qA-storeAnnualLabel').textContent = `門市年費（${stores}間 × $150 × 12個月）`;
   document.getElementById('qA-hqSetup').textContent    = hq    ? fmt(hqSetup)    + ' 元' : '—';
   document.getElementById('qA-storeSetup').textContent = stores ? fmt(storeSetup) + ' 元' : '—';
   document.getElementById('qA-hqAnnual').textContent   = hq    ? fmt(hqAnnual)   + ' 元' : '—';
@@ -386,10 +388,10 @@ function updateRemarks(){
   const rfEl  = document.getElementById('remark-full');
 
   if(chkD.checked && _lastGrand > 0){
-    const deposit  = Math.round(_lastSetupTaxed * 0.3);
+    const deposit  = _lastSetupTaxed;
     const balance  = _lastGrand - deposit;
     rdEl.innerHTML =
-      `<div class="remark-row">１｜訂金：<strong>NTD$${fmt(deposit)}</strong>（含稅）建置費 30%，啟動前支付。</div>` +
+      `<div class="remark-row">１｜訂金：<strong>NTD$${fmt(deposit)}</strong> 建置費（含稅）全額，啟動前支付。</div>` +
       `<div class="remark-row">２｜尾款：<strong>NTD$${fmt(balance)}</strong>（含稅）正式上線後一個月內結清。</div>` +
       `<div class="remark-row">３｜首年全額支付，贈送貳個月使用費。</div>` +
       `<div class="remark-row">４｜成功引薦用戶使用平台，折扣 NTD$2,000／合約。</div>`;
