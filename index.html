@@ -3,8 +3,9 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>可可食集 CocoMart — 方案報價試算</title>
+<title>可可食集 CocoMart — 服務介紹與報價試算</title>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;600&family=Noto+Sans+TC:wght@300;400;500&display=swap" rel="stylesheet"/>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 <style>
 :root{
   --bg:#faf9f7;
@@ -19,64 +20,122 @@
   --tag-a:#e8f0e6;
   --tag-b:#e8eef5;
   --tag-c:#f5ede8;
+  --tag-s:#f0edf8;
   --radius:14px;
 }
 *{box-sizing:border-box;margin:0;padding:0}
 body{background:var(--bg);color:var(--text);font-family:'Noto Sans TC',sans-serif;font-weight:400;min-height:100vh;padding:0 0 60px}
 
 /* HERO */
-.hero{background:var(--accent);color:#fff;padding:36px 24px 32px;text-align:center;position:relative;overflow:hidden}
+.hero{background:var(--accent);color:#fff;padding:44px 24px 40px;text-align:center;position:relative;overflow:hidden}
 .hero::before{content:'';position:absolute;inset:0;background:url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.04'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");pointer-events:none}
-.hero-logo{font-family:'Noto Serif TC',serif;font-size:13px;font-weight:400;letter-spacing:0.15em;opacity:0.75;margin-bottom:10px;text-transform:uppercase}
-.hero-title{font-family:'Noto Serif TC',serif;font-size:28px;font-weight:600;line-height:1.3;margin-bottom:6px}
-.hero-sub{font-size:13px;opacity:0.7;font-weight:300;letter-spacing:0.05em}
+.hero-logo{font-family:'Noto Serif TC',serif;font-size:13px;font-weight:400;letter-spacing:0.2em;opacity:0.75;margin-bottom:12px;text-transform:uppercase}
+.hero-title{font-family:'Noto Serif TC',serif;font-size:30px;font-weight:600;line-height:1.3;margin-bottom:8px}
+.hero-sub{font-size:14px;opacity:0.7;font-weight:300;letter-spacing:0.06em;line-height:1.7}
 
-/* MAIN LAYOUT */
+/* LAYOUT */
 .wrap{max-width:700px;margin:0 auto;padding:0 16px}
 
-/* PLAN SELECTOR */
-.plan-section{margin-top:-1px;padding:28px 0 0}
+/* SECTION DIVIDER */
+.section-divider{margin:36px 0 20px;display:flex;align-items:center;gap:12px}
+.section-divider-label{font-family:'Noto Serif TC',serif;font-size:17px;font-weight:600;color:var(--text);white-space:nowrap}
+.section-divider-line{flex:1;height:1px;background:var(--border)}
 .section-label{font-size:11px;letter-spacing:0.12em;text-transform:uppercase;color:var(--muted);font-weight:500;margin-bottom:14px}
-.plan-tabs{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:0}
-.plan-tab{border:1.5px solid var(--border);border-radius:var(--radius);padding:16px 12px;cursor:pointer;transition:all 0.18s;background:var(--card);text-align:center;position:relative}
+
+/* PAIN POINTS */
+.pain-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:4px}
+.pain-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:18px 16px}
+.pain-icon{font-size:22px;margin-bottom:8px}
+.pain-title{font-size:13px;font-weight:500;color:var(--text);margin-bottom:5px;line-height:1.4}
+.pain-desc{font-size:12px;color:var(--muted);line-height:1.6}
+
+/* AUDIENCE TABS */
+.audience-tabs{display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:8px;margin-bottom:0}
+.aud-tab{border:1.5px solid var(--border);border-radius:var(--radius);padding:14px 10px;cursor:pointer;transition:all 0.18s;background:var(--card);text-align:center}
+.aud-tab:hover{border-color:#aaa}
+.aud-tab.active-A{border-color:var(--accent);background:var(--tag-a)}
+.aud-tab.active-B{border-color:#3a6fa8;background:var(--tag-b)}
+.aud-tab.active-C{border-color:var(--accent2);background:var(--tag-c)}
+.aud-tab.active-S{border-color:#6b4fa8;background:var(--tag-s)}
+.aud-badge{font-size:20px;font-weight:700;font-family:'Noto Serif TC',serif;line-height:1;margin-bottom:4px}
+.aud-tab.active-A .aud-badge{color:var(--accent)}
+.aud-tab.active-B .aud-badge{color:#3a6fa8}
+.aud-tab.active-C .aud-badge{color:var(--accent2)}
+.aud-tab.active-S .aud-badge{color:#6b4fa8}
+.aud-name{font-size:11px;color:var(--muted);line-height:1.4}
+.aud-tab.active-A .aud-name{color:var(--accent)}
+.aud-tab.active-B .aud-name{color:#3a6fa8}
+.aud-tab.active-C .aud-name{color:var(--accent2)}
+.aud-tab.active-S .aud-name{color:#6b4fa8}
+
+/* AUDIENCE DETAIL CARDS */
+.aud-detail{display:none;margin-top:14px;animation:fadeUp 0.22s ease both}
+.aud-detail.visible{display:block}
+.aud-detail-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:22px 20px}
+.aud-detail-header{display:flex;align-items:flex-start;gap:14px;margin-bottom:18px}
+.aud-letter-big{font-family:'Noto Serif TC',serif;font-size:36px;font-weight:600;line-height:1;flex-shrink:0}
+.aud-A .aud-letter-big{color:var(--accent)}
+.aud-B .aud-letter-big{color:#3a6fa8}
+.aud-C .aud-letter-big{color:var(--accent2)}
+.aud-S .aud-letter-big{color:#6b4fa8}
+.aud-detail-title{font-family:'Noto Serif TC',serif;font-size:16px;font-weight:600;margin-bottom:4px}
+.aud-detail-sub{font-size:13px;color:var(--muted);line-height:1.5}
+.aud-features{display:flex;flex-direction:column;gap:8px;margin-top:16px;padding-top:16px;border-top:1px solid var(--border)}
+.aud-feature{display:flex;align-items:flex-start;gap:10px;font-size:13px;line-height:1.5}
+.aud-feature-dot{width:6px;height:6px;border-radius:50%;background:var(--accent);flex-shrink:0;margin-top:7px}
+.aud-B .aud-feature-dot{background:#3a6fa8}
+.aud-C .aud-feature-dot{background:var(--accent2)}
+.aud-S .aud-feature-dot{background:#6b4fa8}
+.aud-price-row{display:flex;align-items:baseline;gap:6px;margin-top:16px;padding-top:14px;border-top:1px solid var(--border)}
+.aud-price-num{font-family:'Noto Serif TC',serif;font-size:22px;font-weight:600}
+.aud-A .aud-price-num{color:var(--accent)}
+.aud-B .aud-price-num{color:#3a6fa8}
+.aud-C .aud-price-num{color:var(--accent2)}
+.aud-S .aud-price-num{color:#6b4fa8}
+.aud-price-label{font-size:12px;color:var(--muted)}
+.aud-cta{display:inline-block;margin-top:14px;background:var(--accent);color:#fff;border:none;border-radius:9px;padding:10px 20px;font-size:13px;font-family:'Noto Sans TC',sans-serif;font-weight:500;cursor:pointer;text-decoration:none;transition:opacity 0.15s}
+.aud-B .aud-cta{background:#3a6fa8}
+.aud-C .aud-cta{background:var(--accent2)}
+.aud-S .aud-cta{background:#6b4fa8}
+.aud-cta:hover{opacity:0.85}
+.early-tag{display:inline-block;background:#f0edf8;color:#6b4fa8;font-size:10px;padding:2px 8px;border-radius:5px;font-weight:500;margin-left:6px;vertical-align:middle}
+
+/* CALC SECTION */
+.plan-tabs{display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:8px;margin-bottom:0}
+.plan-tab{border:1.5px solid var(--border);border-radius:var(--radius);padding:14px 10px;cursor:pointer;transition:all 0.18s;background:var(--card);text-align:center}
 .plan-tab:hover{border-color:#aaa}
 .plan-tab.active-A{border-color:var(--accent);background:var(--tag-a)}
 .plan-tab.active-B{border-color:#3a6fa8;background:var(--tag-b)}
 .plan-tab.active-C{border-color:var(--accent2);background:var(--tag-c)}
+.plan-tab.active-S{border-color:#6b4fa8;background:var(--tag-s)}
 .plan-tab .plan-badge{font-size:18px;font-weight:700;font-family:'Noto Serif TC',serif;margin-bottom:4px;line-height:1}
 .plan-tab .plan-name{font-size:11px;color:var(--muted);line-height:1.4}
-.plan-tab .plan-price-hint{font-size:11px;margin-top:6px;font-weight:500;color:var(--muted)}
+.plan-tab .plan-price-hint{font-size:10px;margin-top:5px;font-weight:500;color:var(--muted)}
 .plan-tab.active-A .plan-badge{color:var(--accent)}
 .plan-tab.active-B .plan-badge{color:#3a6fa8}
 .plan-tab.active-C .plan-badge{color:var(--accent2)}
+.plan-tab.active-S .plan-badge{color:#6b4fa8}
 .plan-tab.active-A .plan-name,.plan-tab.active-A .plan-price-hint{color:var(--accent)}
 .plan-tab.active-B .plan-name,.plan-tab.active-B .plan-price-hint{color:#3a6fa8}
 .plan-tab.active-C .plan-name,.plan-tab.active-C .plan-price-hint{color:var(--accent2)}
+.plan-tab.active-S .plan-name,.plan-tab.active-S .plan-price-hint{color:#6b4fa8}
 
-/* CARDS */
-.card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:22px 20px;margin-top:16px}
+.card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:22px 20px;margin-top:14px}
 .card-title{font-family:'Noto Serif TC',serif;font-size:15px;font-weight:600;margin-bottom:16px;color:var(--text)}
-
-/* INPUTS */
 .input-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px}
-.input-row.single{grid-template-columns:1fr}
 .field{display:flex;flex-direction:column;gap:6px}
 .field label{font-size:12px;color:var(--muted);font-weight:500}
 .field input,.field select{width:100%;border:1px solid var(--border);border-radius:9px;padding:10px 12px;font-size:14px;font-family:'Noto Sans TC',sans-serif;background:#fff;color:var(--text);outline:none;transition:border-color 0.15s}
-.field input:focus,.field select:focus{border-color:var(--accent)}
-
-/* BRAND ROWS */
+.field input:focus{border-color:var(--accent)}
 .brand-rows{display:flex;flex-direction:column;gap:8px}
-.brand-row{display:grid;grid-template-columns:1fr 90px;gap:8px;align-items:center}
-.brand-row .brand-num{font-size:11px;color:var(--muted);font-weight:500;min-width:14px;text-align:right}
 .brand-row-wrap{display:grid;grid-template-columns:14px 1fr;gap:6px;align-items:center}
+.brand-row{display:grid;grid-template-columns:1fr 90px;gap:8px;align-items:center}
 .add-brand-btn,.remove-brand-btn{border:none;background:none;cursor:pointer;font-size:11px;color:var(--muted);padding:0;text-decoration:underline}
 .add-brand-btn:hover{color:var(--accent)}
 .remove-brand-btn:hover{color:#c0392b}
 .brand-row-ctrl{display:flex;gap:10px;margin-top:8px}
 
-/* QUOTE RESULT */
-.quote-card{background:var(--accent);color:#fff;border-radius:var(--radius);padding:22px 20px;margin-top:16px;position:relative;overflow:hidden}
+.quote-card{background:var(--accent);color:#fff;border-radius:var(--radius);padding:22px 20px;margin-top:14px;position:relative;overflow:hidden}
 .quote-card::after{content:'';position:absolute;right:-20px;top:-20px;width:140px;height:140px;border-radius:50%;background:rgba(255,255,255,0.05)}
 .quote-label{font-size:11px;letter-spacing:0.1em;text-transform:uppercase;opacity:0.7;margin-bottom:4px}
 .quote-total{font-family:'Noto Serif TC',serif;font-size:40px;font-weight:600;line-height:1.1;margin-bottom:2px}
@@ -84,28 +143,22 @@ body{background:var(--bg);color:var(--text);font-family:'Noto Sans TC',sans-seri
 .quote-breakdown{border-top:1px solid rgba(255,255,255,0.2);padding-top:14px;display:flex;flex-direction:column;gap:7px}
 .qrow{display:flex;justify-content:space-between;font-size:13px}
 .qrow .ql{opacity:0.8}
-.qrow .qv{font-weight:500;font-family:'Noto Sans TC',sans-serif}
+.qrow .qv{font-weight:500}
 .qrow.grand{border-top:1px solid rgba(255,255,255,0.2);padding-top:10px;margin-top:3px;font-size:15px}
 .qrow.grand .ql{opacity:1;font-weight:600}
 .qrow.grand .qv{font-size:18px;font-family:'Noto Serif TC',serif;font-weight:600}
 
-/* B/C FIXED INFO */
 .fixed-info{background:var(--tag-b);border:1px solid #c5d8ed;border-radius:var(--radius);padding:16px 18px;margin-top:0}
 .fixed-info.c-type{background:var(--tag-c);border-color:#d9bfae}
+.fixed-info.s-type{background:var(--tag-s);border-color:#c5b8e0}
 .fi-title{font-size:13px;font-weight:500;margin-bottom:10px;color:var(--text)}
 .fi-row{display:flex;justify-content:space-between;font-size:13px;padding:5px 0;border-bottom:1px solid rgba(0,0,0,0.06)}
 .fi-row:last-child{border-bottom:none}
 .fi-row .fi-l{color:var(--muted)}
 .fi-row .fi-v{font-weight:500}
 
-/* NOTICE */
 .notice{font-size:11.5px;color:var(--muted);line-height:1.7;margin-top:14px;padding:12px 14px;background:#f5f3ef;border-radius:9px;border-left:3px solid var(--border)}
 
-/* ANIMATE */
-@keyframes fadeUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
-.animate{animation:fadeUp 0.25s ease both}
-
-/* PAYMENT OPTIONS */
 .payment-section{margin-top:14px}
 .payment-title{font-size:11px;letter-spacing:0.12em;text-transform:uppercase;color:var(--muted);font-weight:500;margin-bottom:10px}
 .payment-options{display:flex;flex-direction:column;gap:8px}
@@ -123,60 +176,228 @@ body{background:var(--bg);color:var(--text);font-family:'Noto Sans TC',sans-seri
 .payment-remark.full-type{border-left-color:#8b4513}
 .payment-remark.full-type .remark-row strong{color:#8b4513}
 
+/* QR SECTION */
+.qr-section{margin-top:8px}
+.qr-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px}
+.qr-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:20px 16px;text-align:center;text-decoration:none;color:var(--text);display:block;transition:border-color 0.18s,box-shadow 0.18s}
+.qr-card:hover{border-color:#aaa;box-shadow:0 2px 12px rgba(0,0,0,0.06)}
+.qr-img-wrap{display:flex;justify-content:center;margin-bottom:12px}
+.qr-img-wrap canvas,.qr-img-wrap img{border-radius:8px}
+.qr-title{font-size:13px;font-weight:500;color:var(--text);margin-bottom:4px;line-height:1.4}
+.qr-url{font-size:10px;color:var(--muted);word-break:break-all;line-height:1.4}
+.qr-icon{font-size:18px;margin-bottom:6px}
+
 /* FOOTER */
-.footer{text-align:center;font-size:11px;color:#bbb;margin-top:40px;letter-spacing:0.08em}
+.footer{text-align:center;font-size:11px;color:#bbb;margin-top:40px;letter-spacing:0.08em;padding:0 16px}
+
+@keyframes fadeUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+.animate{animation:fadeUp 0.22s ease both}
 </style>
 </head>
 <body>
 
+<!-- HERO -->
 <div class="hero">
   <div class="hero-logo">可可食集 CocoMart</div>
-  <div class="hero-title">方案報價試算</div>
-  <div class="hero-sub">選擇方案 · 輸入規模 · 即時報價</div>
+  <div class="hero-title">讓訂貨、供貨、管理<br>回歸一個平台</div>
+  <div class="hero-sub">從採購端到供應商端，以模組化 SaaS 架構<br>覆蓋餐飲集團供應鏈的每一個節點</div>
 </div>
 
 <div class="wrap">
 
-  <!-- PLAN SELECT -->
-  <div class="plan-section">
-    <div class="section-label">選擇申請方案</div>
-    <div class="plan-tabs">
-      <div class="plan-tab active-A" id="tab-A" onclick="selectPlan('A')">
-        <div class="plan-badge">A</div>
-        <div class="plan-name">餐廳採購方案</div>
-        <div class="plan-price-hint">依總部 × 門市計算</div>
-      </div>
-      <div class="plan-tab" id="tab-B" onclick="selectPlan('B')">
-        <div class="plan-badge">B</div>
-        <div class="plan-name">供應商方案</div>
-        <div class="plan-price-hint">固定報價</div>
-      </div>
-      <div class="plan-tab" id="tab-C" onclick="selectPlan('C')">
-        <div class="plan-badge">C</div>
-        <div class="plan-name">商城賣場方案</div>
-        <div class="plan-price-hint">固定報價 · 早鳥</div>
-      </div>
+  <!-- 01 PAIN POINTS -->
+  <div class="section-divider">
+    <div class="section-divider-label">您現在面對的挑戰</div>
+    <div class="section-divider-line"></div>
+  </div>
+  <div class="pain-grid">
+    <div class="pain-card">
+      <div class="pain-icon">💰</div>
+      <div class="pain-title">採購成本難以彙整</div>
+      <div class="pain-desc">門市訂貨分散、格式不一，總部難以統整各品牌的實際採購支出</div>
+    </div>
+    <div class="pain-card">
+      <div class="pain-icon">🔌</div>
+      <div class="pain-title">訂供貨各有一套系統</div>
+      <div class="pain-desc">餐廳與供應商各用不同工具，沒有共通語言，溝通成本高、錯誤率難降低</div>
+    </div>
+    <div class="pain-card">
+      <div class="pain-icon">⏱</div>
+      <div class="pain-title">供應鏈效率難提升</div>
+      <div class="pain-desc">LINE、電話、傳真並行，訂貨到出貨每個環節都在消耗人力與時間</div>
     </div>
   </div>
 
-  <!-- A PLAN INPUTS -->
+  <!-- 02 AUDIENCE -->
+  <div class="section-divider">
+    <div class="section-divider-label">找到您的方案</div>
+    <div class="section-divider-line"></div>
+  </div>
+  <div class="section-label">我是⋯⋯</div>
+  <div class="audience-tabs">
+    <div class="aud-tab active-A" id="aud-tab-A" onclick="selectAud('A')">
+      <div class="aud-badge">A</div>
+      <div class="aud-name">餐廳採購端</div>
+    </div>
+    <div class="aud-tab" id="aud-tab-B" onclick="selectAud('B')">
+      <div class="aud-badge">B</div>
+      <div class="aud-name">食材供應商</div>
+    </div>
+    <div class="aud-tab" id="aud-tab-C" onclick="selectAud('C')">
+      <div class="aud-badge">C</div>
+      <div class="aud-name">品牌總部</div>
+    </div>
+    <div class="aud-tab" id="aud-tab-S" onclick="selectAud('S')">
+      <div class="aud-badge">S</div>
+      <div class="aud-name">可可商城</div>
+    </div>
+  </div>
+
+  <!-- A -->
+  <div class="aud-detail aud-A visible" id="aud-A">
+    <div class="aud-detail-card">
+      <div class="aud-detail-header">
+        <div class="aud-letter-big">A</div>
+        <div>
+          <div class="aud-detail-title">餐廳採購方案</div>
+          <div class="aud-detail-sub">以餐飲總部為單位，整合多供應商，實現一站式採購流程。<br>總部對多門市、門市對多供應商，全部在同一個平台完成訂供貨交易。</div>
+        </div>
+      </div>
+      <div class="aud-features">
+        <div class="aud-feature"><div class="aud-feature-dot"></div><div>多供應商統一訂貨介面，告別 LINE 追單</div></div>
+        <div class="aud-feature"><div class="aud-feature-dot"></div><div>總部 → 門市派單管理，採購成本一目了然</div></div>
+        <div class="aud-feature"><div class="aud-feature-dot"></div><div>驗收、對帳流程數位化，大幅降低人工錯誤</div></div>
+        <div class="aud-feature"><div class="aud-feature-dot"></div><div>採購數據報表，支援總部決策與成本分析</div></div>
+      </div>
+      <div class="aud-price-row">
+        <div class="aud-price-num">總部 $1,500</div>
+        <div class="aud-price-label">/ 月 ＋ 各門市 $150 / 月</div>
+      </div>
+      <div style="font-size:12px;color:var(--muted);margin-top:4px">導入費：總部 $10,000（一次性）+ 各門市 $1,000（一次性）</div>
+      <a href="#calc-section" class="aud-cta" onclick="selectPlan('A')">試算 A 方案費用 ↓</a>
+    </div>
+  </div>
+
+  <!-- B -->
+  <div class="aud-detail aud-B" id="aud-B">
+    <div class="aud-detail-card">
+      <div class="aud-detail-header">
+        <div class="aud-letter-big">B</div>
+        <div>
+          <div class="aud-detail-title">供應商方案</div>
+          <div class="aud-detail-sub">以供應商為單位，收斂整合來自多個餐飲品牌與門市的訂單需求。<br>CocoMart 成為市場訂供貨的共通語言，讓您的業務流程標準化。</div>
+        </div>
+      </div>
+      <div class="aud-features">
+        <div class="aud-feature"><div class="aud-feature-dot"></div><div>統一接單介面，多品牌客戶訂單集中管理</div></div>
+        <div class="aud-feature"><div class="aud-feature-dot"></div><div>出貨排程與通知自動化，減少電話往返</div></div>
+        <div class="aud-feature"><div class="aud-feature-dot"></div><div>客戶對帳管理，應收帳款清晰可查</div></div>
+        <div class="aud-feature"><div class="aud-feature-dot"></div><div>訂單數據分析，掌握各品牌採購規律</div></div>
+      </div>
+      <div class="aud-price-row">
+        <div class="aud-price-num">$3,000</div>
+        <div class="aud-price-label">/ 月（年繳 $36,000）</div>
+      </div>
+      <div style="font-size:12px;color:var(--muted);margin-top:4px">導入費：$10,000（一次性）</div>
+      <a href="#calc-section" class="aud-cta" onclick="selectPlan('B')">試算 B 方案費用 ↓</a>
+    </div>
+  </div>
+
+  <!-- C -->
+  <div class="aud-detail aud-C" id="aud-C">
+    <div class="aud-detail-card">
+      <div class="aud-detail-header">
+        <div class="aud-letter-big">C</div>
+        <div>
+          <div class="aud-detail-title">總部央廚方案</div>
+          <div class="aud-detail-sub">純餐飲品牌內部供應鏈整合，適合台灣雞排店或以加盟為主的品牌主。<br>總部統一管理食材規格，加盟門市照規下單，閉環不外流。</div>
+        </div>
+      </div>
+      <div class="aud-features">
+        <div class="aud-feature"><div class="aud-feature-dot"></div><div>總部 → 加盟主訂貨平台，品項與規格統一管控</div></div>
+        <div class="aud-feature"><div class="aud-feature-dot"></div><div>門市銷售與庫存整合，掌握各點營運狀況</div></div>
+        <div class="aud-feature"><div class="aud-feature-dot"></div><div>加盟管理後台，授權分層清晰</div></div>
+        <div class="aud-feature"><div class="aud-feature-dot"></div><div>各門市導入費僅 $100，規模擴展成本極低</div></div>
+      </div>
+      <div class="aud-price-row">
+        <div class="aud-price-num">$3,000</div>
+        <div class="aud-price-label">/ 月（年繳 $36,000）</div>
+      </div>
+      <div style="font-size:12px;color:var(--muted);margin-top:4px">導入費：總部 $10,000 + 各門市 $100（一次性）</div>
+      <a href="#calc-section" class="aud-cta" onclick="selectPlan('C')">試算 C 方案費用 ↓</a>
+    </div>
+  </div>
+
+  <!-- S -->
+  <div class="aud-detail aud-S" id="aud-S">
+    <div class="aud-detail-card">
+      <div class="aud-detail-header">
+        <div class="aud-letter-big">S</div>
+        <div>
+          <div class="aud-detail-title">可可商城 <span class="early-tag">早鳥優惠</span></div>
+          <div class="aud-detail-sub">B2B 食材電商通路，適合供應商拓展品牌曝光，或採購端尋找新食材來源。<br>早鳥價隨時可能調整，現在加入最划算。</div>
+        </div>
+      </div>
+      <div class="aud-features">
+        <div class="aud-feature"><div class="aud-feature-dot"></div><div>精選供應商商城曝光，觸及更多潛在餐飲客戶</div></div>
+        <div class="aud-feature"><div class="aud-feature-dot"></div><div>冷鏈物流整合，食材安全到位</div></div>
+        <div class="aud-feature"><div class="aud-feature-dot"></div><div>食安認證標章展示，提升買家信任</div></div>
+        <div class="aud-feature"><div class="aud-feature-dot"></div><div>可與 A / C 方案串接，打通採購與商城雙通路</div></div>
+      </div>
+      <div class="aud-price-row">
+        <div class="aud-price-num">$1,000</div>
+        <div class="aud-price-label">/ 月（早鳥年繳 $12,000）・導入費免收</div>
+      </div>
+      <div style="font-size:12px;color:#a0446a;margin-top:4px">早鳥優惠僅限合約第一年，正式定價 $72,000 / 年</div>
+      <a href="#calc-section" class="aud-cta" onclick="selectPlan('S')">查看 S 方案費用 ↓</a>
+    </div>
+  </div>
+
+  <!-- 03 CALCULATOR -->
+  <div class="section-divider" id="calc-section">
+    <div class="section-divider-label">方案報價試算</div>
+    <div class="section-divider-line"></div>
+  </div>
+  <div class="section-label">選擇申請方案</div>
+  <div class="plan-tabs">
+    <div class="plan-tab active-A" id="tab-A" onclick="selectPlan('A')">
+      <div class="plan-badge">A</div>
+      <div class="plan-name">餐廳採購方案</div>
+      <div class="plan-price-hint">依總部 × 門市計算</div>
+    </div>
+    <div class="plan-tab" id="tab-B" onclick="selectPlan('B')">
+      <div class="plan-badge">B</div>
+      <div class="plan-name">供應商方案</div>
+      <div class="plan-price-hint">固定報價</div>
+    </div>
+    <div class="plan-tab" id="tab-C" onclick="selectPlan('C')">
+      <div class="plan-badge">C</div>
+      <div class="plan-name">總部央廚方案</div>
+      <div class="plan-price-hint">固定報價</div>
+    </div>
+    <div class="plan-tab" id="tab-S" onclick="selectPlan('S')">
+      <div class="plan-badge">S</div>
+      <div class="plan-name">可可商城</div>
+      <div class="plan-price-hint">早鳥固定價</div>
+    </div>
+  </div>
+
+  <!-- A CALC -->
   <div id="section-A" class="animate">
     <div class="card">
       <div class="card-title">總部與品牌設定</div>
       <div class="input-row">
         <div class="field">
-          <label>總部數量（決定總部費率）</label>
+          <label>總部數量</label>
           <input type="number" id="hqCount" min="1" max="99" value="1" oninput="calcA()"/>
         </div>
       </div>
-      <div class="section-label" style="margin-top:4px;margin-bottom:10px">各品牌門市數（可跨總部，自由新增）</div>
+      <div class="section-label" style="margin-top:4px;margin-bottom:10px">各品牌門市數（可自由新增）</div>
       <div class="brand-rows" id="brandRows"></div>
       <div class="brand-row-ctrl">
         <button class="add-brand-btn" onclick="addBrand()">＋ 新增品牌列</button>
       </div>
     </div>
-
-    <!-- QUOTE -->
     <div class="quote-card" id="quoteA">
       <div class="quote-label">預估含稅總金額</div>
       <div class="quote-total" id="qA-grand">—</div>
@@ -196,8 +417,6 @@ body{background:var(--bg);color:var(--text);font-family:'Noto Sans TC',sans-seri
       ・年費方案：總部 18,000 元／年；各門市 1,800 元／年。<br>
       ・本試算為參考報價，正式金額以申請書簽署為準。
     </div>
-
-    <!-- PAYMENT OPTIONS -->
     <div class="payment-section">
       <div class="payment-title">付款方式選擇</div>
       <div class="payment-options">
@@ -221,7 +440,7 @@ body{background:var(--bg);color:var(--text);font-family:'Noto Sans TC',sans-seri
     </div>
   </div>
 
-  <!-- B PLAN -->
+  <!-- B CALC -->
   <div id="section-B" style="display:none">
     <div class="card">
       <div class="card-title">供應商方案 — 費用說明</div>
@@ -250,18 +469,50 @@ body{background:var(--bg);color:var(--text);font-family:'Noto Sans TC',sans-seri
     </div>
   </div>
 
-  <!-- C PLAN -->
+  <!-- C CALC -->
   <div id="section-C" style="display:none">
     <div class="card">
-      <div class="card-title">商城供應商賣場方案 — 費用說明</div>
+      <div class="card-title">總部央廚方案 — 費用說明</div>
       <div class="fixed-info c-type">
-        <div class="fi-title">可可食集商城・供應商賣場服務標準版（早鳥）</div>
-        <div class="fi-row"><span class="fi-l">早鳥優惠年費</span><span class="fi-v">12,000 元</span></div>
-        <div class="fi-row"><span class="fi-l">（月費換算）</span><span class="fi-v">1,000 元／月</span></div>
-        <div class="fi-row"><span class="fi-l">原價</span><span class="fi-v" style="text-decoration:line-through;color:var(--muted)">72,000 元／年</span></div>
+        <div class="fi-title">訂供貨平台・總部央廚方案</div>
+        <div class="fi-row"><span class="fi-l">總部導入費（一次性）</span><span class="fi-v">10,000 元</span></div>
+        <div class="fi-row"><span class="fi-l">各門市導入費（一次性）</span><span class="fi-v">100 元／間</span></div>
+        <div class="fi-row"><span class="fi-l">系統年費</span><span class="fi-v">36,000 元</span></div>
+        <div class="fi-row"><span class="fi-l">（月費換算）</span><span class="fi-v">3,000 元／月</span></div>
       </div>
     </div>
-    <div class="quote-card" style="background:#6b3320">
+    <div class="quote-card" style="background:#7a3210">
+      <div class="quote-label">預估含稅總金額（不含門市導入費）</div>
+      <div class="quote-total">48,300</div>
+      <div class="quote-unit">元（含 5% 營業稅）</div>
+      <div class="quote-breakdown">
+        <div class="qrow"><span class="ql">總部導入費</span><span class="qv">10,000</span></div>
+        <div class="qrow"><span class="ql">年費</span><span class="qv">36,000</span></div>
+        <div class="qrow"><span class="ql">稅前合計</span><span class="qv">46,000</span></div>
+        <div class="qrow"><span class="ql">營業稅（5%）</span><span class="qv">2,300</span></div>
+        <div class="qrow grand"><span class="ql">含稅總計</span><span class="qv">48,300</span></div>
+      </div>
+    </div>
+    <div class="notice">
+      ・各門市導入費僅 100 元／間，規模擴展成本極低。<br>
+      ・以上報價不含門市導入費，實際金額依門市數加計。<br>
+      ・本試算為參考報價，正式金額以申請書簽署為準。
+    </div>
+  </div>
+
+  <!-- S CALC -->
+  <div id="section-S" style="display:none">
+    <div class="card">
+      <div class="card-title">可可商城賣場方案 — 費用說明</div>
+      <div class="fixed-info s-type">
+        <div class="fi-title">可可食集商城・供應商賣場服務（早鳥優惠）</div>
+        <div class="fi-row"><span class="fi-l">導入費</span><span class="fi-v">免收</span></div>
+        <div class="fi-row"><span class="fi-l">早鳥優惠年費</span><span class="fi-v">12,000 元</span></div>
+        <div class="fi-row"><span class="fi-l">（月費換算）</span><span class="fi-v">1,000 元／月</span></div>
+        <div class="fi-row"><span class="fi-l">正式定價（參考）</span><span class="fi-v" style="text-decoration:line-through;color:var(--muted)">72,000 元／年</span></div>
+      </div>
+    </div>
+    <div class="quote-card" style="background:#4a2d7a">
       <div class="quote-label">預估含稅總金額</div>
       <div class="quote-total">12,600</div>
       <div class="quote-unit">元（含 5% 營業稅）</div>
@@ -278,48 +529,80 @@ body{background:var(--bg);color:var(--text);font-family:'Noto Sans TC',sans-seri
     </div>
   </div>
 
-  <div class="footer" style="margin-top:32px">可可食集 CocoMart｜食集資訊股份有限公司<br>本頁報價僅供試算參考，實際費用以正式申請書為準</div>
-</div>
+  <!-- 04 QR CODES -->
+  <div class="section-divider">
+    <div class="section-divider-label">立即聯繫我們</div>
+    <div class="section-divider-line"></div>
+  </div>
+  <div class="qr-section">
+    <div class="qr-grid">
+      <a class="qr-card" href="https://calendar.google.com/calendar/u/0/appointments/schedules/AcZssZ3dvcrnmzpkGVQtfmi5u0Fy0uBhdT4eIUu6xUwLm4k5nsf5oaG8jCOj2jE5UmPf-Ase--_n9gLj" target="_blank" rel="noopener">
+        <div class="qr-img-wrap" id="qr1"></div>
+        <div class="qr-title">預約平台操作說明</div>
+        <div class="qr-url">點擊或掃碼預約</div>
+      </a>
+      <a class="qr-card" href="https://line.me/ti/p/DnqQrzvEZx" target="_blank" rel="noopener">
+        <div class="qr-img-wrap" id="qr2"></div>
+        <div class="qr-title">LINE 加好友諮詢</div>
+        <div class="qr-url">點擊或掃碼加入</div>
+      </a>
+      <a class="qr-card" href="https://cocomart.com.tw/" target="_blank" rel="noopener">
+        <div class="qr-img-wrap" id="qr3"></div>
+        <div class="qr-title">CocoMart 官網</div>
+        <div class="qr-url">點擊或掃碼前往</div>
+      </a>
+    </div>
+  </div>
+
+  <div class="footer" style="margin-top:40px">
+    可可食集 CocoMart｜食集資訊股份有限公司<br>
+    本頁報價僅供試算參考，實際費用以正式申請書為準
+  </div>
+
+</div><!-- /wrap -->
 
 <script>
-let plan = 'A';
-let brands = [{name:'',stores:0}];
+/* ── AUDIENCE TABS ── */
+function selectAud(p){
+  ['A','B','C','S'].forEach(x=>{
+    document.getElementById('aud-tab-'+x).className='aud-tab';
+    document.getElementById('aud-'+x).classList.remove('visible');
+  });
+  document.getElementById('aud-tab-'+p).classList.add('active-'+p);
+  document.getElementById('aud-'+p).classList.add('visible');
+}
+
+/* ── PLAN TABS ── */
+let plan='A';
+let brands=[{name:'',stores:0}];
 
 function selectPlan(p){
-  plan = p;
-  ['A','B','C'].forEach(x=>{
-    const tab = document.getElementById('tab-'+x);
-    tab.className = 'plan-tab';
+  plan=p;
+  ['A','B','C','S'].forEach(x=>{
+    const tab=document.getElementById('tab-'+x);
+    tab.className='plan-tab';
     if(x===p) tab.classList.add('active-'+x);
-    document.getElementById('section-'+x).style.display = x===p ? 'block' : 'none';
+    const sec=document.getElementById('section-'+x);
+    if(sec) sec.style.display=x===p?'block':'none';
   });
   if(p==='A') calcA();
 }
 
-function addBrand(){
-  brands.push({name:'',stores:0});
-  renderBrands();
-  calcA();
-}
-
-function removeBrand(idx){
-  if(brands.length<=1) return;
-  brands.splice(idx,1);
-  renderBrands();
-  calcA();
-}
-
+/* ── BRAND ROWS ── */
+function addBrand(){ brands.push({name:'',stores:0}); renderBrands(); calcA(); }
+function removeBrand(idx){ if(brands.length<=1)return; brands.splice(idx,1); renderBrands(); calcA(); }
 function renderBrands(){
-  const container = document.getElementById('brandRows');
-  container.innerHTML = '';
+  const c=document.getElementById('brandRows');
+  c.innerHTML='';
   brands.forEach((b,i)=>{
-    const row = document.createElement('div');
-    row.className = 'brand-row-wrap';
-    row.innerHTML = `
+    const row=document.createElement('div');
+    row.className='brand-row-wrap';
+    row.innerHTML=`
       <span style="font-size:11px;color:#aaa;text-align:right">${i+1}.</span>
       <div class="brand-row">
         <input type="text" placeholder="品牌或總部名稱（選填）" value="${b.name}"
-          oninput="brands[${i}].name=this.value" style="border:1px solid #e8e4dd;border-radius:9px;padding:9px 12px;font-size:13px;font-family:'Noto Sans TC',sans-serif;width:100%;outline:none"/>
+          oninput="brands[${i}].name=this.value"
+          style="border:1px solid #e8e4dd;border-radius:9px;padding:9px 12px;font-size:13px;font-family:'Noto Sans TC',sans-serif;width:100%;outline:none"/>
         <div style="display:flex;align-items:center;gap:6px">
           <input type="number" placeholder="門市數" min="0" value="${b.stores||''}"
             oninput="brands[${i}].stores=Number(this.value)||0;calcA()"
@@ -327,90 +610,86 @@ function renderBrands(){
           ${brands.length>1?`<button class="remove-brand-btn" onclick="removeBrand(${i})">✕</button>`:''}
         </div>
       </div>`;
-    container.appendChild(row);
+    c.appendChild(row);
   });
 }
 
 function fmt(n){ return new Intl.NumberFormat('zh-TW').format(n); }
-
-let _lastGrand = 0;
-let _lastSetupTaxed = 0;
+let _lastGrand=0, _lastSetupTaxed=0;
 
 function calcA(){
-  const hq = Math.max(0, Number(document.getElementById('hqCount').value)||0);
-  const stores = brands.reduce((s,b)=>s+(Number(b.stores)||0),0);
-  const hqSetup   = hq * 10000;
-  const storeSetup = stores * 1000;
-  const hqAnnual  = hq * 18000;
-  const storeAnnual = stores * 1800;
-  const sub = hqSetup + storeSetup + hqAnnual + storeAnnual;
-  const tax = Math.round(sub * 0.05);
-  const grand = sub + tax;
-
-  // 建置費含稅
-  const setupPre = hqSetup + storeSetup;
-  const setupTaxed = Math.round(setupPre * 1.05);
-
-  _lastGrand = grand;
-  _lastSetupTaxed = setupTaxed;
-
-  document.getElementById('qA-hqAnnualLabel').textContent   = `總部年費（${hq}個 × $1,500 × 12個月）`;
-  document.getElementById('qA-storeAnnualLabel').textContent = `門市年費（${stores}間 × $150 × 12個月）`;
-  document.getElementById('qA-hqSetup').textContent    = hq    ? fmt(hqSetup)    + ' 元' : '—';
-  document.getElementById('qA-storeSetup').textContent = stores ? fmt(storeSetup) + ' 元' : '—';
-  document.getElementById('qA-hqAnnual').textContent   = hq    ? fmt(hqAnnual)   + ' 元' : '—';
-  document.getElementById('qA-storeAnnual').textContent= stores ? fmt(storeAnnual)+ ' 元' : '—';
-  document.getElementById('qA-sub').textContent  = sub   ? fmt(sub)   + ' 元' : '—';
-  document.getElementById('qA-tax').textContent  = tax   ? fmt(tax)   + ' 元' : '—';
-  document.getElementById('qA-total').textContent= grand ? fmt(grand) + ' 元' : '—';
-  document.getElementById('qA-grand').textContent= grand ? fmt(grand) : '—';
-
-  // 更新備註金額（如果已勾選）
+  const hq=Math.max(0,Number(document.getElementById('hqCount').value)||0);
+  const stores=brands.reduce((s,b)=>s+(Number(b.stores)||0),0);
+  const hqSetup=hq*10000, storeSetup=stores*1000;
+  const hqAnnual=hq*18000, storeAnnual=stores*1800;
+  const sub=hqSetup+storeSetup+hqAnnual+storeAnnual;
+  const tax=Math.round(sub*0.05), grand=sub+tax;
+  const setupPre=hqSetup+storeSetup;
+  const setupTaxed=Math.round(setupPre*1.05);
+  _lastGrand=grand; _lastSetupTaxed=setupTaxed;
+  document.getElementById('qA-hqAnnualLabel').textContent=`總部年費（${hq}個 × $1,500 × 12個月）`;
+  document.getElementById('qA-storeAnnualLabel').textContent=`門市年費（${stores}間 × $150 × 12個月）`;
+  document.getElementById('qA-hqSetup').textContent=hq?fmt(hqSetup)+' 元':'—';
+  document.getElementById('qA-storeSetup').textContent=stores?fmt(storeSetup)+' 元':'—';
+  document.getElementById('qA-hqAnnual').textContent=hq?fmt(hqAnnual)+' 元':'—';
+  document.getElementById('qA-storeAnnual').textContent=stores?fmt(storeAnnual)+' 元':'—';
+  document.getElementById('qA-sub').textContent=sub?fmt(sub)+' 元':'—';
+  document.getElementById('qA-tax').textContent=tax?fmt(tax)+' 元':'—';
+  document.getElementById('qA-total').textContent=grand?fmt(grand)+' 元':'—';
+  document.getElementById('qA-grand').textContent=grand?fmt(grand):'—';
   updateRemarks();
 }
 
 function onPaymentChange(type){
-  const chkD = document.getElementById('chk-deposit');
-  const chkF = document.getElementById('chk-full');
-  if(type==='deposit' && chkD.checked) chkF.checked = false;
-  if(type==='full' && chkF.checked) chkD.checked = false;
-
-  document.getElementById('opt-deposit').className = 'payment-option' + (chkD.checked ? ' selected-deposit' : '');
-  document.getElementById('opt-full').className    = 'payment-option' + (chkF.checked ? ' selected-full' : '');
-
+  const chkD=document.getElementById('chk-deposit');
+  const chkF=document.getElementById('chk-full');
+  if(type==='deposit'&&chkD.checked) chkF.checked=false;
+  if(type==='full'&&chkF.checked) chkD.checked=false;
+  document.getElementById('opt-deposit').className='payment-option'+(chkD.checked?' selected-deposit':'');
+  document.getElementById('opt-full').className='payment-option'+(chkF.checked?' selected-full':'');
   updateRemarks();
 }
 
 function updateRemarks(){
-  const chkD = document.getElementById('chk-deposit');
-  const chkF = document.getElementById('chk-full');
-  const rdEl  = document.getElementById('remark-deposit');
-  const rfEl  = document.getElementById('remark-full');
-
-  if(chkD.checked && _lastGrand > 0){
-    const deposit  = _lastSetupTaxed;
-    const balance  = _lastGrand - deposit;
-    rdEl.innerHTML =
-      `<div class="remark-row">１｜訂金：<strong>NTD$${fmt(deposit)}</strong> 建置費（含稅）全額，啟動前支付。</div>` +
-      `<div class="remark-row">２｜尾款：<strong>NTD$${fmt(balance)}</strong>（含稅）正式上線後一個月內結清。</div>` +
-      `<div class="remark-row">３｜首年全額支付，贈送貳個月使用費。</div>` +
+  const chkD=document.getElementById('chk-deposit');
+  const chkF=document.getElementById('chk-full');
+  const rdEl=document.getElementById('remark-deposit');
+  const rfEl=document.getElementById('remark-full');
+  if(chkD.checked&&_lastGrand>0){
+    const deposit=_lastSetupTaxed, balance=_lastGrand-deposit;
+    rdEl.innerHTML=
+      `<div class="remark-row">１｜訂金：<strong>NTD$${fmt(deposit)}</strong> 建置費（含稅）全額，啟動前支付。</div>`+
+      `<div class="remark-row">２｜尾款：<strong>NTD$${fmt(balance)}</strong>（含稅）正式上線後一個月內結清。</div>`+
+      `<div class="remark-row">３｜首年全額支付，贈送貳個月使用費。</div>`+
       `<div class="remark-row">４｜成功引薦用戶使用平台，折扣 NTD$2,000／合約。</div>`;
-    rdEl.className = 'payment-remark visible';
-  } else {
-    rdEl.className = 'payment-remark';
-  }
-
-  if(chkF.checked && _lastGrand > 0){
-    rfEl.innerHTML =
-      `<div class="remark-row">１｜全額支付：<strong>NTD$${fmt(_lastGrand)}</strong>（含稅），首年全額支付，贈送貳個月使用費。</div>` +
+    rdEl.className='payment-remark visible';
+  } else { rdEl.className='payment-remark'; }
+  if(chkF.checked&&_lastGrand>0){
+    rfEl.innerHTML=
+      `<div class="remark-row">１｜全額支付：<strong>NTD$${fmt(_lastGrand)}</strong>（含稅），首年全額支付，贈送貳個月使用費。</div>`+
       `<div class="remark-row">２｜成功引薦用戶使用平台，折扣 NTD$2,000／合約。</div>`;
-    rfEl.className = 'payment-remark full-type visible';
-  } else {
-    rfEl.className = 'payment-remark full-type';
-  }
+    rfEl.className='payment-remark full-type visible';
+  } else { rfEl.className='payment-remark full-type'; }
 }
 
-// init
+/* ── QR CODES ── */
+const qrData=[
+  { id:'qr1', url:'https://calendar.google.com/calendar/u/0/appointments/schedules/AcZssZ3dvcrnmzpkGVQtfmi5u0Fy0uBhdT4eIUu6xUwLm4k5nsf5oaG8jCOj2jE5UmPf-Ase--_n9gLj' },
+  { id:'qr2', url:'https://line.me/ti/p/DnqQrzvEZx' },
+  { id:'qr3', url:'https://cocomart.com.tw/' },
+];
+qrData.forEach(q=>{
+  new QRCode(document.getElementById(q.id),{
+    text: q.url,
+    width: 130,
+    height: 130,
+    colorDark: '#1a1612',
+    colorLight: '#ffffff',
+    correctLevel: QRCode.CorrectLevel.M
+  });
+});
+
+/* ── INIT ── */
 renderBrands();
 calcA();
 </script>
