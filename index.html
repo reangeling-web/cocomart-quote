@@ -292,7 +292,7 @@ body{background:var(--bg);color:var(--text);font-family:'Noto Sans TC',sans-seri
         <div class="aud-feature"><div class="aud-feature-dot"></div><div>統一接單介面，多品牌客戶訂單集中管理</div></div>
         <div class="aud-feature"><div class="aud-feature-dot"></div><div>出貨排程與通知自動化，減少電話往返</div></div>
         <div class="aud-feature"><div class="aud-feature-dot"></div><div>客戶對帳管理，應收帳款清晰可查</div></div>
-        <div class="aud-feature"><div class="aud-feature-dot"></div><div>訂單數據分析以掌握各品牌採購規律</div></div>
+        <div class="aud-feature"><div class="aud-feature-dot"></div><div>訂單數據完整收納，掌握各品牌採購規律</div></div>
       </div>
       <div class="aud-price-row">
         <div class="aud-price-num">$3,000</div>
@@ -340,8 +340,8 @@ body{background:var(--bg);color:var(--text);font-family:'Noto Sans TC',sans-seri
       </div>
       <div class="aud-features">
         <div class="aud-feature"><div class="aud-feature-dot"></div><div>精選供應商商城曝光，觸及更多潛在餐飲客戶</div></div>
-        <div class="aud-feature"><div class="aud-feature-dot"></div><div>不用等業務敲門，讓平台上的精準TA主動上門</div></div>
-        <div class="aud-feature"><div class="aud-feature-dot"></div><div>美觀的頁面搭配直覺的操作，黏住TA張貼需求</div></div>
+        <div class="aud-feature"><div class="aud-feature-dot"></div><div>不用等業務敲門，讓平台上的精準 TA 主動上門</div></div>
+        <div class="aud-feature"><div class="aud-feature-dot"></div><div>美觀的頁面搭配直覺的操作，黏住 TA 張貼需求</div></div>
         <div class="aud-feature"><div class="aud-feature-dot"></div><div>未來打通訂供貨平台，築建供應鏈完整生態系</div></div>
       </div>
       <div class="aud-price-row">
@@ -472,9 +472,15 @@ body{background:var(--bg);color:var(--text);font-family:'Noto Sans TC',sans-seri
   <!-- C CALC -->
   <div id="section-C" style="display:none">
     <div class="card">
-      <div class="card-title">總部央廚方案 — 費用說明</div>
-      <div class="fixed-info c-type">
-        <div class="fi-title">訂供貨平台・總部央廚方案</div>
+      <div class="card-title">總部央廚方案 — 輸入門市數試算</div>
+      <div class="input-row">
+        <div class="field">
+          <label>門市數量（加盟門市總數）</label>
+          <input type="number" id="cStoreCount" min="0" value="0" oninput="calcC()"/>
+        </div>
+      </div>
+      <div class="fixed-info c-type" style="margin-top:4px">
+        <div class="fi-title">費率說明</div>
         <div class="fi-row"><span class="fi-l">總部導入費（一次性）</span><span class="fi-v">10,000 元</span></div>
         <div class="fi-row"><span class="fi-l">各門市導入費（一次性）</span><span class="fi-v">100 元／間</span></div>
         <div class="fi-row"><span class="fi-l">系統年費</span><span class="fi-v">36,000 元</span></div>
@@ -482,20 +488,21 @@ body{background:var(--bg);color:var(--text);font-family:'Noto Sans TC',sans-seri
       </div>
     </div>
     <div class="quote-card" style="background:#7a3210">
-      <div class="quote-label">預估含稅總金額（不含門市導入費）</div>
-      <div class="quote-total">48,300</div>
+      <div class="quote-label">預估含稅總金額</div>
+      <div class="quote-total" id="qC-grand">—</div>
       <div class="quote-unit">元（含 5% 營業稅）</div>
       <div class="quote-breakdown">
-        <div class="qrow"><span class="ql">總部導入費</span><span class="qv">10,000</span></div>
-        <div class="qrow"><span class="ql">年費</span><span class="qv">36,000</span></div>
-        <div class="qrow"><span class="ql">稅前合計</span><span class="qv">46,000</span></div>
-        <div class="qrow"><span class="ql">營業稅（5%）</span><span class="qv">2,300</span></div>
-        <div class="qrow grand"><span class="ql">含稅總計</span><span class="qv">48,300</span></div>
+        <div class="qrow"><span class="ql">總部導入費（一次性）</span><span class="qv" id="qC-hqSetup">10,000 元</span></div>
+        <div class="qrow"><span class="ql" id="qC-storeSetupLabel">各門市導入費（一次性）</span><span class="qv" id="qC-storeSetup">—</span></div>
+        <div class="qrow"><span class="ql">系統年費</span><span class="qv">36,000 元</span></div>
+        <div class="qrow"><span class="ql">稅前合計</span><span class="qv" id="qC-sub">—</span></div>
+        <div class="qrow"><span class="ql">營業稅（5%）</span><span class="qv" id="qC-tax">—</span></div>
+        <div class="qrow grand"><span class="ql">含稅總計</span><span class="qv" id="qC-total">—</span></div>
       </div>
     </div>
     <div class="notice">
-      ・各門市導入費僅 100 元／間，規模擴展成本極低。<br>
-      ・以上報價不含門市導入費，實際金額依門市數加計。<br>
+      ・各門市導入費僅 100 元／間，即使百間加盟也只多 10,000 元。<br>
+      ・系統年費固定 36,000 元，不隨門市數增加。<br>
       ・本試算為參考報價，正式金額以申請書簽署為準。
     </div>
   </div>
@@ -672,6 +679,23 @@ function updateRemarks(){
   } else { rfEl.className='payment-remark full-type'; }
 }
 
+/* ── CALC C ── */
+function calcC(){
+  const stores = Math.max(0, Number(document.getElementById('cStoreCount').value)||0);
+  const hqSetup = 10000;
+  const storeSetup = stores * 100;
+  const annual = 36000;
+  const sub = hqSetup + storeSetup + annual;
+  const tax = Math.round(sub * 0.05);
+  const grand = sub + tax;
+  document.getElementById('qC-storeSetupLabel').textContent = `各門市導入費（${stores} 間 × $100）`;
+  document.getElementById('qC-storeSetup').textContent = stores ? fmt(storeSetup) + ' 元' : '—';
+  document.getElementById('qC-sub').textContent = fmt(sub) + ' 元';
+  document.getElementById('qC-tax').textContent = fmt(tax) + ' 元';
+  document.getElementById('qC-total').textContent = fmt(grand) + ' 元';
+  document.getElementById('qC-grand').textContent = fmt(grand);
+}
+
 /* ── QR CODES ── */
 const qrData=[
   { id:'qr1', url:'https://calendar.google.com/calendar/u/0/appointments/schedules/AcZssZ3dvcrnmzpkGVQtfmi5u0Fy0uBhdT4eIUu6xUwLm4k5nsf5oaG8jCOj2jE5UmPf-Ase--_n9gLj' },
@@ -692,6 +716,7 @@ qrData.forEach(q=>{
 /* ── INIT ── */
 renderBrands();
 calcA();
+calcC();
 </script>
 </body>
 </html>
